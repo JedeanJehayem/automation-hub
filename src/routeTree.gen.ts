@@ -9,12 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppExecutionsRouteImport } from './routes/_app.executions'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppAutomationsRouteImport } from './routes/_app.automations'
+import { Route as AppExecutionsIdRouteImport } from './routes/_app.executions.$id'
+import { Route as AppAutomationsIdRouteImport } from './routes/_app.automations.$id'
 
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,40 +26,98 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppExecutionsRoute = AppExecutionsRouteImport.update({
+  id: '/executions',
+  path: '/executions',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAutomationsRoute = AppAutomationsRouteImport.update({
+  id: '/automations',
+  path: '/automations',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExecutionsIdRoute = AppExecutionsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppExecutionsRoute,
+} as any)
+const AppAutomationsIdRoute = AppAutomationsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AppAutomationsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/automations': typeof AppAutomationsRouteWithChildren
+  '/dashboard': typeof AppDashboardRoute
+  '/executions': typeof AppExecutionsRouteWithChildren
+  '/automations/$id': typeof AppAutomationsIdRoute
+  '/executions/$id': typeof AppExecutionsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/automations': typeof AppAutomationsRouteWithChildren
+  '/dashboard': typeof AppDashboardRoute
+  '/executions': typeof AppExecutionsRouteWithChildren
+  '/automations/$id': typeof AppAutomationsIdRoute
+  '/executions/$id': typeof AppExecutionsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/automations': typeof AppAutomationsRouteWithChildren
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/executions': typeof AppExecutionsRouteWithChildren
+  '/_app/automations/$id': typeof AppAutomationsIdRoute
+  '/_app/executions/$id': typeof AppExecutionsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard'
+  fullPaths:
+    | '/'
+    | '/automations'
+    | '/dashboard'
+    | '/executions'
+    | '/automations/$id'
+    | '/executions/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard'
-  id: '__root__' | '/' | '/dashboard'
+  to:
+    | '/'
+    | '/automations'
+    | '/dashboard'
+    | '/executions'
+    | '/automations/$id'
+    | '/executions/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/_app/automations'
+    | '/_app/dashboard'
+    | '/_app/executions'
+    | '/_app/automations/$id'
+    | '/_app/executions/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +127,85 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/executions': {
+      id: '/_app/executions'
+      path: '/executions'
+      fullPath: '/executions'
+      preLoaderRoute: typeof AppExecutionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/automations': {
+      id: '/_app/automations'
+      path: '/automations'
+      fullPath: '/automations'
+      preLoaderRoute: typeof AppAutomationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/executions/$id': {
+      id: '/_app/executions/$id'
+      path: '/$id'
+      fullPath: '/executions/$id'
+      preLoaderRoute: typeof AppExecutionsIdRouteImport
+      parentRoute: typeof AppExecutionsRoute
+    }
+    '/_app/automations/$id': {
+      id: '/_app/automations/$id'
+      path: '/$id'
+      fullPath: '/automations/$id'
+      preLoaderRoute: typeof AppAutomationsIdRouteImport
+      parentRoute: typeof AppAutomationsRoute
+    }
   }
 }
 
+interface AppAutomationsRouteChildren {
+  AppAutomationsIdRoute: typeof AppAutomationsIdRoute
+}
+
+const AppAutomationsRouteChildren: AppAutomationsRouteChildren = {
+  AppAutomationsIdRoute: AppAutomationsIdRoute,
+}
+
+const AppAutomationsRouteWithChildren = AppAutomationsRoute._addFileChildren(
+  AppAutomationsRouteChildren,
+)
+
+interface AppExecutionsRouteChildren {
+  AppExecutionsIdRoute: typeof AppExecutionsIdRoute
+}
+
+const AppExecutionsRouteChildren: AppExecutionsRouteChildren = {
+  AppExecutionsIdRoute: AppExecutionsIdRoute,
+}
+
+const AppExecutionsRouteWithChildren = AppExecutionsRoute._addFileChildren(
+  AppExecutionsRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppAutomationsRoute: typeof AppAutomationsRouteWithChildren
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppExecutionsRoute: typeof AppExecutionsRouteWithChildren
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAutomationsRoute: AppAutomationsRouteWithChildren,
+  AppDashboardRoute: AppDashboardRoute,
+  AppExecutionsRoute: AppExecutionsRouteWithChildren,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
