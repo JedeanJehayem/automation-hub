@@ -44,32 +44,34 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.16 0.015 60);
-  --foreground: oklch(0.98 0.005 80);
-  --card: oklch(0.21 0.02 60);
-  --card-foreground: oklch(0.98 0.005 80);
-  --popover: oklch(0.21 0.02 60);
-  --popover-foreground: oklch(0.98 0.005 80);
-  --primary: oklch(0.82 0.18 75);
-  --primary-foreground: oklch(0.16 0.015 60);
-  --secondary: oklch(0.27 0.025 60);
-  --secondary-foreground: oklch(0.98 0.005 80);
-  --muted: oklch(0.24 0.02 60);
-  --muted-foreground: oklch(0.72 0.025 70);
-  --accent: oklch(0.72 0.2 45);
-  --accent-foreground: oklch(0.16 0.015 60);
+  --background: oklch(0.14 0.01 260);
+  --foreground: oklch(0.98 0.005 250);
+  --card: oklch(0.18 0.012 260);
+  --card-foreground: oklch(0.98 0.005 250);
+  --popover: oklch(0.18 0.012 260);
+  --popover-foreground: oklch(0.98 0.005 250);
+  --primary: oklch(0.7 0.18 265);
+  --primary-foreground: oklch(0.98 0.005 250);
+  --secondary: oklch(0.24 0.015 260);
+  --secondary-foreground: oklch(0.98 0.005 250);
+  --muted: oklch(0.22 0.012 260);
+  --muted-foreground: oklch(0.68 0.02 260);
+  --accent: oklch(0.7 0.18 265);
+  --accent-foreground: oklch(0.98 0.005 250);
   --destructive: oklch(0.65 0.22 25);
-  --destructive-foreground: oklch(0.98 0.005 80);
-  --border: oklch(0.3 0.02 60);
-  --input: oklch(0.27 0.025 60);
-  --ring: oklch(0.82 0.18 75);
-  --success: oklch(0.74 0.18 150);
+  --destructive-foreground: oklch(0.98 0.005 250);
+  --border: oklch(0.26 0.015 260);
+  --input: oklch(0.22 0.012 260);
+  --ring: oklch(0.7 0.18 265);
+  --success: oklch(0.72 0.16 160);
 
-  --gradient-primary: linear-gradient(135deg, oklch(0.85 0.19 85), oklch(0.7 0.21 45));
-  --gradient-hero: radial-gradient(ellipse at 20% 0%, oklch(0.72 0.2 45 / 0.25), transparent 60%),
-                   radial-gradient(ellipse at 80% 100%, oklch(0.82 0.18 75 / 0.2), transparent 55%);
-  --shadow-glow: 0 0 50px -10px oklch(0.78 0.2 60 / 0.45);
-  --shadow-card: 0 8px 28px -12px oklch(0.1 0.02 60 / 0.7);
+  /* Area status palette (hex for Konva) */
+  --status-available: oklch(0.72 0.16 160);
+  --status-reserved: oklch(0.82 0.16 85);
+  --status-negotiation: oklch(0.72 0.18 50);
+  --status-sold: oklch(0.65 0.22 25);
+  --status-blocked: oklch(0.55 0.02 260);
+  --status-cancelled: oklch(0.4 0.01 260);
 }
 
 @layer base {
